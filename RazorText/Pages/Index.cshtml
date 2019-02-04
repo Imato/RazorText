@@ -1,10 +1,19 @@
-﻿@page
+﻿@page  "{uniqueTitle?}"
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = Model.Article.Title;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-left">
+    <h1>@Model.Article.Title</h1>
+    <h3>@Model.Article.Author</h3>
+    <p>
+        <i>@Model.Article.CreateDate</i>
+    </p>
+    <div>
+        <form>
+            <input type="text" asp-for="@Model.Article.Text" />
+            <input type="button" value="Save"/>
+        </form>
+    </div>
 </div>
