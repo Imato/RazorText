@@ -12,18 +12,36 @@ namespace RazorText.Data
             using (var db = new SqlDbContext(serviceProvider.GetRequiredService<DbContextOptions<SqlDbContext>>()))
             {
                 if (db.Articles.Any())
-                    return;
+                   return;
 
-                db.Articles.Add(new Article
+                db.CreateNewArticle("Same new article", "Imato", "Same new article", "Test");
+
+                var a2 = new Article
                 {
                     Author = "Imato",
                     CreateDate = DateTime.Now,
-                    Tags = "Test",
-                    Text = "Same new article",
-                    Title = "Same new article",
-                    UniqueTitle = db.GetUniqueTitle("Same new article")
-                });
+                    Tags = "Test;Markdown",
+                    Text = @"#### This is Markdown text inside of a Markdown block
 
+    * Item 1
+    * Item 2
+ 
+    ### Dynamic Data is supported:
+    The current Time is: @DateTime.Now.ToString(""HH:mm:ss"")
+
+    ```cs
+    // this c# is a code block
+    for (int i = 0; i < lines.Length; i++)
+                {
+                    line1 = lines[i];
+                    if (!string.IsNullOrEmpty(line1))
+                        break;
+                }
+    ```",
+                    Title = "Text with markdown"
+                };
+
+                db.CreateNewArticle(a2);
                 db.SaveChanges();
             }
         }

@@ -1,7 +1,7 @@
-﻿@page  "{uniqueTitle?}"
+﻿@page 
 @model IndexModel
 @{
-    ViewData["Title"] = Model.Article.Title;
+    ViewData["Title"] = "Create new";
 }
 
 <div class="text-left">
@@ -12,8 +12,10 @@
     </p>
     <div>
         <form>
+            <input type="text" asp-for="@Model.Article.Title" />
+            <input type="text" asp-for="@Model.Article.Author" />
             <input type="text" asp-for="@Model.Article.Text" />
-            <input type="button" value="Save"/>
+            <input type="button" value="Save" />
         </form>
     </div>
 </div>

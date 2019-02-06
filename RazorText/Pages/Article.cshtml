@@ -1,0 +1,21 @@
+﻿@page  "{uniqueTitle?}"
+@model ArticleModel
+@using Westwind.AspNetCore.Markdown
+@{
+    ViewData["Title"] = Model.Article.Title;
+}
+
+<div class="text-left">
+    <h1>@Model.Article.Title</h1>
+    <h3>@Model.Article.Author</h3>
+    <p>
+        <i>@Model.Article.CreateDate</i>
+    </p>
+    <div>
+        @Markdown.ParseHtmlString(Model.Article.Text)
+    </div>
+    <div>
+        Tags: @Model.Article.Tags
+    </div>
+</div>
+

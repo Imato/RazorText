@@ -14,26 +14,19 @@ namespace RazorText.Pages
 
         [BindProperty]
         public Article Article { get; private set; }
-        [BindProperty(SupportsGet = true)]
-        public string UniqueTitle { get; set; }
 
         public IndexModel(SqlDbContext db)
         {
             _db = db;
         }
         public void OnGet()
-        {
-            if (!string.IsNullOrEmpty(UniqueTitle))
-                Article = _db.Articles.Where(a => a.UniqueTitle == UniqueTitle).FirstOrDefault();
-
-            if(Article == null)
-                Article = new Article
-                {
-                    CreateDate = DateTime.Now,
-                    Text = "Enter new text",
-                    Title = "Create new article",
-                    UniqueTitle = "create-new"
-                };
+        {          
+            Article = new Article
+            {
+                CreateDate = DateTime.Now,
+                Text = "Enter new text",
+                Title = "Create new article",
+            };
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -41,9 +34,7 @@ namespace RazorText.Pages
             if (!ModelState.IsValid)
                 return Page();
 
-            Article.UniqueTitle = _db.GetUniqueTitle(Article.Title);
-            _db.Articles.Add(Article);
-            await _db.SaveChangesAsync();
+            Article = _db.CreateNewArticle(Article);
 
             return RedirectToPage("Index", $"/{Article.UniqueTitle}");
         }        
